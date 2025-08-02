@@ -1,0 +1,1 @@
+add_executable(udp_server src/main.cpp)

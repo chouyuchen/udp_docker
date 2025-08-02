@@ -1,0 +1,1 @@
+add_executable(udp_client src/main.cpp)

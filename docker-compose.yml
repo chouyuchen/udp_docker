@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  server:
+    build:
+      context: ./server          # only look at server/ contents
+      dockerfile: Dockerfile
+    image: udp_server
+    networks:
+      - udpnet
+    ports:
+      - "9000:9000/udp"
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+  client:
+    build:
+      context: ./client          # only look at client/ contents
+      dockerfile: Dockerfile
+    image: udp_client
+    networks:
+      - udpnet
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+networks:
+  udpnet:
+    driver: bridge
