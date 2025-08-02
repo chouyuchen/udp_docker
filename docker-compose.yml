@@ -10,9 +10,9 @@ services:
       - "9000:9000/udp"
     entrypoint: ["tail", "-f", "/dev/null"]
     volumes:
-      - ./server:/server:cached
-      - ./server/build:/server/build
-    working_dir: /server
+      - ./server:/src:cached
+      - ./server/build:/src/build
+    working_dir: /src
 
   client:
     build:
@@ -23,9 +23,9 @@ services:
       - udpnet
     entrypoint: ["tail", "-f", "/dev/null"]
     volumes:
-      - ./client:/client:cached
-      - ./client/build:/client/build
-    working_dir: /client
+      - ./client:/src:cached
+      - ./client/build:/src/build
+    working_dir: /src
 
 networks:
   udpnet:
