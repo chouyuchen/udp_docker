@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   server:
     build:
@@ -10,6 +9,10 @@ services:
     ports:
       - "9000:9000/udp"
     entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./server:/server:cached
+      - ./server/build:/server/build
+    working_dir: /server
 
   client:
     build:
@@ -19,6 +22,10 @@ services:
     networks:
       - udpnet
     entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./client:/client:cached
+      - ./client/build:/client/build
+    working_dir: /client
 
 networks:
   udpnet:
