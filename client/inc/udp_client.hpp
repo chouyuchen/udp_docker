@@ -1,8 +1,9 @@
 #pragma once
-#include "packet.hpp"
+#include "paket.hpp"
 #include <cstdint>
 #include <string>
 #include <netinet/in.h>
+#include <vector>
 
 #define BUFFER_SIZE 1024
 

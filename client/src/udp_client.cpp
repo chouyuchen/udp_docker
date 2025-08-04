@@ -47,15 +47,17 @@ void udp_client::UDPClient::run(){
             }
 
             udp_packet::Flags response = receiveResponse();
-            if(f == udp_packet::Flags::ACK) {
+            if(response == udp_packet::Flags::ACK) {
                 std::cout << "[Client] Received ACK for seq=" << seq_ << std::endl;
                 done = true; // exit loop on successful ACK
-            } else if (f == udp_packet::Flags::NAK) {
+            } else if (response == udp_packet::Flags::NAK) {
                 std::cout << "[Client] Received NAK for seq=" << seq_ << std::endl;
             } else {
                 std::cerr << "[Client] Unexpected response, retrying..." << std::endl;
             }
         }
+        seq_++; // Increment sequence number after successful send
+        std::this_thread::sleep_for(std::chrono::seconds(10));
     }
 }
 
@@ -65,8 +67,8 @@ void udp_client::UDPClient::run(){
 std::vector<char> udp_client::UDPClient::makePacket(const std::string& payload) {
     udp_packet::PacketHeader header{};
     header.seq = seq_;
-    header.ack = 0; // No ACK for initial packet
-    header.flags = udp_packet::Flags::DATA;
+    header.ack_num = 0; // No ACK for initial packet
+    header.flags = static_cast<uint16_t>(udp_packet::Flags::DATA);
     header.len = payload.size();
 
     std::vector<char> buffer(sizeof(header) + header.len);
@@ -96,5 +98,5 @@ udp_packet::Flags udp_client::UDPClient::receiveResponse() {
     }
 
     auto* header = reinterpret_cast<udp_packet::PacketHeader*>(buffer);
-    return header->flags; // Return the flags from the received packet
+    return static_cast<udp_packet::Flags>(header->flags); // Return the flags from the received packet
 }
