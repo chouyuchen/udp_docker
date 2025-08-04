@@ -48,7 +48,7 @@ void udp_server::UDPServer::run() {
         }
 
         handlePacket(buffer, n, clientaddr, clientlen);
-        std::this_thread::sleep_for(std::chrono::seconds(10));  // exchange as 0.1 Hz
+        std::this_thread::sleep_for(std::chrono::seconds(1));  // exchange as 0.1 Hz
     }
 }
 

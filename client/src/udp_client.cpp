@@ -56,8 +56,8 @@ void udp_client::UDPClient::run(){
                 std::cerr << "[Client] Unexpected response, retrying..." << std::endl;
             }
         }
-        seq_++; // Increment sequence number after successful send
-        std::this_thread::sleep_for(std::chrono::seconds(10));
+        seq_ ++; // Increment sequence number after successful send
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
